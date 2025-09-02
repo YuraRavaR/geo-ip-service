@@ -2,6 +2,15 @@
 
 This application allows you to look up IP location information using different country proxies.
 
+## Clone Repository
+
+To get a local copy of this project, run:
+
+```bash
+git clone https://github.com/YuraRavaR/geo-ip-service.git
+cd geo-ip-service
+```
+
 ## Setup Instructions
 
 1. Install dependencies:
