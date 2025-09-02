@@ -25,15 +25,17 @@ http://localhost:3000
 ## Features
 
 - Geo IP lookup using ip-api.com
+- Default option without proxy
 - Proxy support for different countries (Kazakhstan, Turkey)
 - Simple and responsive UI
 
 ## How It Works
 
-The application uses a Node.js server to handle proxy requests to the IP-API service.
-When you select a country and click "Get Location Data", the request is sent through
-a proxy server corresponding to the selected country, giving you location information
-as if you were browsing from that country.
+The application uses a Node.js server to handle requests to the IP-API service.
+When you select a country and click "Get Location Data", the request is processed as follows:
+
+- **Default (No Proxy)**: Direct request to IP-API showing your actual location
+- **Country-specific**: Request sent through a proxy server corresponding to the selected country, giving you location information as if you were browsing from that country
 
 ## Proxy Configuration
 

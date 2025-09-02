@@ -34,9 +34,14 @@ app.get("/api/geo/:country", async (req, res) => {
   const country = req.params.country.toLowerCase();
   console.log(`Received request for country: ${country}`);
 
-  console.log(`Received request for country: ${country}`);
-
   try {
+    // For default option - make direct request without proxy
+    if (country === "default") {
+      console.log("Using default connection without proxy");
+      const response = await axios.get("http://ip-api.com/json/");
+      return res.json(response.data);
+    }
+
     // Check if we have proxy settings for the requested country
     if (!proxySettings[country]) {
       console.log(`No proxy settings found for country: ${country}`);
