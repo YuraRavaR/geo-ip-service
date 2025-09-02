@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geo IP Lookup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 800px;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 18px;
+      }
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .note {
+        color: #666;
+        margin-top: 5px;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .results {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        min-height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Geo IP Lookup</h1>
+
+      <div class="form-group">
+        <label for="location">Select Location:</label>
+        <select id="location">
+          <option value="kazakhstan">Kazakhstan</option>
+          <option value="turkey">Turkey</option>
+          <option value="uk">United Kingdom</option>
+        </select>
+      </div>
+
+      <button id="getLocationBtn">Get Location Data</button>
+
+      <div class="results">
+        <p>Results will appear here...</p>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("getLocationBtn")
+        .addEventListener("click", function () {
+          const location = document.getElementById("location").value;
+          const resultsDiv = document.querySelector(".results");
+
+          // Show loading message
+          resultsDiv.innerHTML = "<p>Loading data...</p>";
+
+          // Define proxy settings for different countries
+          const proxySettings = {
+            kazakhstan: {
+              url: "https://brd.superproxy.io:33335",
+              auth: "brd-customer-hl_ba0676a7-zone-isp_proxy_turkey:rnvea29aev6m",
+            },
+            turkey: {
+              url: "https://brd.superproxy.io:33335",
+              auth: "brd-customer-hl_ba0676a7-zone-isp_proxy_usa:rnvea29aev6m",
+            },
+          };
+
+          // Function to make API request with proxy through our server
+          async function fetchWithProxy() {
+            try {
+              // Make a request to our server-side proxy endpoint
+              const response = await fetch(
+                `http://localhost:3000/api/geo/${location}`
+              );
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              const data = await response.json();
+
+              // Display results from the API
+              let resultsHTML = `
+                <h3>Location Information (${location}):</h3>
+                <p><strong>IP Address:</strong> ${data.query}</p>
+                <p><strong>Country:</strong> ${data.country}</p>
+                <p><strong>Region:</strong> ${data.regionName}</p>
+                <p><strong>City:</strong> ${data.city}</p>
+                <p><strong>Timezone:</strong> ${data.timezone}</p>
+                <p><strong>ISP:</strong> ${data.isp}</p>
+                <p><strong>Latitude:</strong> ${data.lat}</p>
+                <p><strong>Longitude:</strong> ${data.lon}</p>
+              `;
+
+              resultsDiv.innerHTML = resultsHTML;
+            } catch (error) {
+              // Handle any errors
+              resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+              console.error("Error fetching data:", error);
+            }
+          }
+
+          // Call the fetch function
+          fetchWithProxy();
+        });
+    </script>
+  </body>
+</html>
