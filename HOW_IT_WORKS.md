@@ -34,6 +34,7 @@
 ### 1. HTML (index.html)
 
 HTML-файл - це структура нашого додатку, яку бачить користувач. Він містить:
+
 - Заголовки
 - Випадаючий список для вибору країни
 - Кнопка для запуску пошуку
@@ -43,7 +44,9 @@ HTML-файл - це структура нашого додатку, яку ба
 ```html
 <!DOCTYPE html>
 <html>
-  <head>...</head>
+  <head>
+    ...
+  </head>
   <body>
     <div class="container">
       <h1>Geo IP Lookup</h1>
@@ -55,7 +58,9 @@ HTML-файл - це структура нашого додатку, яку ба
       <button id="getLocationBtn">Get Location Data</button>
       <div class="results">...</div>
     </div>
-    <script>...</script>
+    <script>
+      ...
+    </script>
   </body>
 </html>
 ```
@@ -63,27 +68,30 @@ HTML-файл - це структура нашого додатку, яку ба
 ### 2. JavaScript у браузері
 
 Коли користувач натискає кнопку, JavaScript у браузері:
+
 1. Зчитує вибрану країну з випадаючого списку
 2. Показує повідомлення про завантаження
 3. Відправляє запит на НАШ сервер (не напряму на IP API)
 4. Отримує відповідь і відображає її на сторінці
 
 ```javascript
-document.getElementById("getLocationBtn").addEventListener("click", function () {
-  // Отримати вибрану країну
-  const location = document.getElementById("location").value;
-  
-  // Показати повідомлення про завантаження
-  resultsDiv.innerHTML = "<p>Loading data...</p>";
-  
-  // Запит до нашого сервера
-  fetch(`http://localhost:3000/api/geo/${location}`)
-    .then(response => response.json())
-    .then(data => {
-      // Відображення результатів
-      resultsDiv.innerHTML = `...`;
-    });
-});
+document
+  .getElementById("getLocationBtn")
+  .addEventListener("click", function () {
+    // Отримати вибрану країну
+    const location = document.getElementById("location").value;
+
+    // Показати повідомлення про завантаження
+    resultsDiv.innerHTML = "<p>Loading data...</p>";
+
+    // Запит до нашого сервера
+    fetch(`http://localhost:3000/api/geo/${location}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Відображення результатів
+        resultsDiv.innerHTML = `...`;
+      });
+  });
 ```
 
 ### 3. Node.js сервер (server.js)
@@ -102,25 +110,29 @@ const axios = require("axios");
 
 // Налаштування проксі для різних країн
 const proxySettings = {
-  kazakhstan: { /* налаштування проксі */ },
+  kazakhstan: {
+    /* налаштування проксі */
+  },
   // інші країни...
 };
 
 app.get("/api/geo/:country", async (req, res) => {
   const country = req.params.country;
-  
+
   // Якщо default - запит без проксі
-  if (country === 'default') {
+  if (country === "default") {
     const response = await axios.get("http://ip-api.com/json/");
     return res.json(response.data);
   }
-  
+
   // Інакше - використовуємо проксі для вказаної країни
   const proxyConfig = proxySettings[country];
   const response = await axios.get("http://ip-api.com/json/", {
-    proxy: { /* налаштування проксі */ }
+    proxy: {
+      /* налаштування проксі */
+    },
   });
-  
+
   res.json(response.data);
 });
 ```
@@ -152,6 +164,7 @@ app.get("/api/geo/:country", async (req, res) => {
 ### 1. Асинхронні операції
 
 У JavaScript багато операцій є асинхронними, особливо мережеві запити. Тому ми використовуємо:
+
 - `async/await` - для більш читабельного асинхронного коду
 - `Promise` і методи `then/catch` - для обробки результатів асинхронних операцій
 
@@ -174,6 +187,7 @@ app.get("/api/geo/:country", async (req, res) => {
 ## Висновок
 
 Хоча цей додаток здається простим, він демонструє важливі концепції сучасної веб-розробки:
+
 - Розділення клієнтської та серверної частин
 - Використання API для отримання даних
 - Маніпулювання мережевим трафіком через проксі
