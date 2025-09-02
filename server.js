@@ -1,7 +1,6 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
-const { HttpsProxyAgent } = require("https-proxy-agent");
 const proxySettings = require("./proxySettings");
 
 const app = express();

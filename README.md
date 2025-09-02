@@ -39,5 +39,5 @@ When you select a country and click "Get Location Data", the request is processe
 
 ## Proxy Configuration
 
-Proxy settings are configured in the server.js file. You can add more proxy configurations
+Proxy settings are configured in the `proxySettings.js` file. You can add more proxy configurations
 for additional countries as needed.
