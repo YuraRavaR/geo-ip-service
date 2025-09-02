@@ -77,7 +77,6 @@
         <select id="location">
           <option value="kazakhstan">Kazakhstan</option>
           <option value="turkey">Turkey</option>
-          <option value="uk">United Kingdom</option>
         </select>
       </div>
 
@@ -97,18 +96,6 @@
 
           // Show loading message
           resultsDiv.innerHTML = "<p>Loading data...</p>";
-
-          // Define proxy settings for different countries
-          const proxySettings = {
-            kazakhstan: {
-              url: "https://brd.superproxy.io:33335",
-              auth: "brd-customer-hl_ba0676a7-zone-isp_proxy_turkey:rnvea29aev6m",
-            },
-            turkey: {
-              url: "https://brd.superproxy.io:33335",
-              auth: "brd-customer-hl_ba0676a7-zone-isp_proxy_usa:rnvea29aev6m",
-            },
-          };
 
           // Function to make API request with proxy through our server
           async function fetchWithProxy() {

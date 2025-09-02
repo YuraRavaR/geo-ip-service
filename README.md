@@ -25,7 +25,7 @@ http://localhost:3000
 ## Features
 
 - Geo IP lookup using ip-api.com
-- Proxy support for different countries (Kazakhstan, USA, UK, Germany)
+- Proxy support for different countries (Kazakhstan, Turkey)
 - Simple and responsive UI
 
 ## How It Works

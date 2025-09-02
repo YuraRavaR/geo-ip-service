@@ -27,12 +27,13 @@ const proxySettings = {
       password: "rnvea29aev6m",
     },
   },
-  // Add more proxy settings for other countries as needed
 };
 
 // API endpoint to get location data through proxy
 app.get("/api/geo/:country", async (req, res) => {
   const country = req.params.country.toLowerCase();
+  console.log(`Received request for country: ${country}`);
+
   console.log(`Received request for country: ${country}`);
 
   try {
